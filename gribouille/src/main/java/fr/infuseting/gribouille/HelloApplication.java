@@ -25,20 +25,21 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
         closeWindow(stage);
-        Canvas dessin = (Canvas) scene.lookup("Canvas");
+        Canvas dessin = (Canvas) scene.lookup("#canvas");
         dessin.setOnMousePressed(this::onMousePressedDrawOnCanvas);
         dessin.setOnMouseDragged(this::onMouseDraggedDrawOnCanvas);
 
     }
 
     private void onMouseDraggedDrawOnCanvas(MouseEvent mouseEvent) {
+
         Canvas dessin = (Canvas) mouseEvent.getSource();
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
         dessin.getGraphicsContext2D().strokeLine(prevX, prevY, x, y);
         prevX = x;
         prevY = y;
-    }
+}
 
     private void onMousePressedDrawOnCanvas(MouseEvent mouseEvent) {
         Canvas dessin = (Canvas) mouseEvent.getSource();
