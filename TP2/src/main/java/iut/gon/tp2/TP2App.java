@@ -70,7 +70,23 @@ public class TP2App extends Application {
 
   /** Prépare les menus et leurs événements */
   private void prepareMenus(MenuBar menus) {
-    //TODO Remplir la barre de menus
+    Menu fichierMenu = new Menu("_Fichiers");
+    Menu aideMenu = new Menu("_Aide");
+    MenuItem quitItem = new MenuItem("Quitter");
+    MenuItem aboutItem = new MenuItem("À propos");
+    quitItem.setOnAction(event-> Platform.exit());
+    aboutItem.setOnAction(event -> {
+      Alert alert = new Alert(Alert.AlertType.NONE);
+      alert.setTitle("À propos");
+      alert.setHeaderText("Gestion de groupe");
+      alert.setContentText("TP2 de Gestion de groupe\n");
+        alert.show();
+    });
+    fichierMenu.getItems().add(quitItem);
+    aideMenu.getItems().add(aboutItem);
+
+    menus.getMenus().addAll(fichierMenu, aideMenu);
+
   }
 
   /**
@@ -78,7 +94,12 @@ public class TP2App extends Application {
    Active le bouton "Ajouter tout"
    */
   private void prepareListe() {
-    //TODO active le bouton "Ajouter tout"
+    gauche.getItems().addAll("Arnaud", "Antoine", "Arthur", "Remy", "Romain", "Sylvain", "Thibault", "Thomas");
+    if (gauche.getItems().size() > 0) {
+      ajouteTout.setDisable(false);
+    }
+
+
   }
 
   private void extraitIds(Scene scene) {
