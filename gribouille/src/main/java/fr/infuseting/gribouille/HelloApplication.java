@@ -6,7 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +29,15 @@ public class HelloApplication extends Application {
         stage.show();
         closeWindow(stage);
         Canvas dessin = (Canvas) scene.lookup("#canvas");
+        Pane pane = (Pane) dessin.getParent();
+        pane.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                Circle circle = new Circle(event.getX(), event.getY(), 5);
+                circle.setMouseTransparent(true);
+                pane.getChildren().add(circle);
+                event.consume();
+            }
+        });
         dessin.setOnMousePressed(this::onMousePressedDrawOnCanvas);
         dessin.setOnMouseDragged(this::onMouseDraggedDrawOnCanvas);
 
