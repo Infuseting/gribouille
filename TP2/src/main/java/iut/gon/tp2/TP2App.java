@@ -50,8 +50,34 @@ public class TP2App extends Application {
   /** Prépare les actions des boutons */
   private void prepareBoutons() {
     ajouteTout.setOnAction(this::onAjouteTout);
+    versGauche.setOnAction(this::onRetireSelect);
+    versDroite.setOnAction(this::onAjouteSelect);
     retireTout.setOnAction(this::onRetireTout);
     // TODO actions des deux boutons centraux
+  }
+
+  private void onRetireSelect(ActionEvent actionEvent) {
+    if (droite.getSelectionModel().getSelectedItems() != null) {
+        gauche.getItems().add(droite.getSelectionModel().getSelectedItem());
+        droite.getItems().remove(droite.getSelectionModel().getSelectedItem());
+        if (droite.getItems().size() == 0) {
+          retireTout.setDisable(true);
+        }
+        ajouteTout.setDisable(false);
+    }
+  }
+
+  private void onAjouteSelect(ActionEvent actionEvent) {
+
+      if (gauche.getSelectionModel().getSelectedItems() != null) {
+        droite.getItems().add(gauche.getSelectionModel().getSelectedItem());
+        gauche.getItems().remove(gauche.getSelectionModel().getSelectedItem());
+        if (gauche.getItems().size() == 0) {
+          ajouteTout.setDisable(true);
+        }
+        retireTout.setDisable(false);
+      }
+
   }
 
   /** Ajoute tous les éléments de gauche dans la liste de droite
@@ -59,13 +85,22 @@ public class TP2App extends Application {
   private void onAjouteTout(ActionEvent actionEvent) {
     droite.getItems().addAll(gauche.getItems());
     gauche.getItems().clear();
+    if (droite.getItems().size() > 0) {
+      retireTout.setDisable(false);
+    }
+    ajouteTout.setDisable(true);
     //TODO active/désactive les boutons
   }
 
   /** Ajoute tous les éléments de droite dans la liste de gauche
    Active le bouton "Ajouter tout" et désactive le bouton "Retirer tout" */
   private void onRetireTout(ActionEvent actionEvent) {
-    //TODO
+    gauche.getItems().addAll(droite.getItems());
+    droite.getItems().clear();
+    if (gauche.getItems().size() > 0) {
+      ajouteTout.setDisable(false);
+    }
+    retireTout.setDisable(true);
   }
 
   /** Prépare les menus et leurs événements */
