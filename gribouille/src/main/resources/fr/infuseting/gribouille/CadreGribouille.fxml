@@ -87,13 +87,13 @@
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <children>
                   <Label text="X : " />
-                  <Label text="None" />
+                  <Label text="None" fx:id="xLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <Label text="Y : " />
-                  <Label text="None" />
+                  <Label fx:id="yLabel" text="None" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
@@ -136,7 +136,7 @@
    <center>
       <Pane fx:id="CanvasFond" BorderPane.alignment="CENTER">
          <children>
-             <Canvas fx:id="Canvas" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" />         </children>
+             <Canvas fx:id="Canvas" onMouseMoved="#onMouseMoved" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" />         </children>
       </Pane>
    </center>
 </BorderPane>

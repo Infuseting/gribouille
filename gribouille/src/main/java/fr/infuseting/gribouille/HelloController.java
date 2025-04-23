@@ -3,14 +3,11 @@ package fr.infuseting.gribouille;
 import fr.infuseting.gribouille.modele.Dessin;
 import fr.infuseting.gribouille.modele.Figure;
 import fr.infuseting.gribouille.modele.Trace;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -94,6 +91,12 @@ public class HelloController implements Initializable {
     @FXML
     private Pane CanvasFond;
 
+    @FXML
+    private Label xLabel;
+
+    @FXML
+    private Label yLabel;
+
     private Dessin dessin;
     private Trace currentTrace;
 
@@ -101,8 +104,8 @@ public class HelloController implements Initializable {
         this.dessin = dessin;
     }
 
-    private double prevX;
-    private double prevY;
+    private final SimpleDoubleProperty prevX = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty prevY = new SimpleDoubleProperty();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -124,6 +127,8 @@ public class HelloController implements Initializable {
                 event.consume();
             }
         });
+        xLabel.textProperty().bind(prevX.asString("X: %.2f"));
+        yLabel.textProperty().bind(prevY.asString("Y: %.2f"));
     }
 
     @FXML
@@ -134,6 +139,8 @@ public class HelloController implements Initializable {
         // Create a new Trace and add it to the Dessin
         currentTrace = new Trace(1, "black", x, y); // Default thickness and color
         dessin.addFigure(currentTrace);
+        prevX.set(mouseEvent.getX());
+        prevY.set(mouseEvent.getY());
     }
 
     @FXML
@@ -147,9 +154,15 @@ public class HelloController implements Initializable {
         }
 
         // Draw the current segment on the Canvas
-        Canvas.getGraphicsContext2D().strokeLine(prevX, prevY, x, y);
-        prevX = x;
-        prevY = y;
+        Canvas.getGraphicsContext2D().strokeLine(prevX.getValue(), prevY.getValue(), x, y);
+        prevX.set(mouseEvent.getX());
+        prevY.set(mouseEvent.getY());
+    }
+
+    @FXML
+    private void onMouseMoved(MouseEvent mouseEvent) {
+        prevX.set(mouseEvent.getX());
+        prevY.set(mouseEvent.getY());
     }
 
     private void redraw() {
