@@ -17,9 +17,6 @@ import java.util.Optional;
 
 public class HelloApplication extends Application {
 
-    private double prevX;
-    private double prevY;
-
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CadreGribouille.fxml"));
@@ -28,53 +25,29 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
         closeWindow(stage);
-        Canvas dessin = (Canvas) scene.lookup("#canvas");
-        Pane pane = (Pane) dessin.getParent();
-        pane.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                Circle circle = new Circle(event.getX(), event.getY(), 5);
-                circle.setMouseTransparent(true);
-                pane.getChildren().add(circle);
-                event.consume();
-            }
-        });
-        dessin.setOnMousePressed(this::onMousePressedDrawOnCanvas);
-        dessin.setOnMouseDragged(this::onMouseDraggedDrawOnCanvas);
 
     }
 
-    private void onMouseDraggedDrawOnCanvas(MouseEvent mouseEvent) {
 
-        Canvas dessin = (Canvas) mouseEvent.getSource();
-        double x = mouseEvent.getX();
-        double y = mouseEvent.getY();
-        dessin.getGraphicsContext2D().strokeLine(prevX, prevY, x, y);
-        prevX = x;
-        prevY = y;
-}
-
-    private void onMousePressedDrawOnCanvas(MouseEvent mouseEvent) {
-        Canvas dessin = (Canvas) mouseEvent.getSource();
-        double x = mouseEvent.getX();
-        double y = mouseEvent.getY();
-        prevX = x;
-        prevY = y;
-    }
 
     public void closeWindow(Stage stage) {
         stage.setOnCloseRequest(event -> {
+            if (!Dialogues.confirmation()) {
+                event.consume(); // Annule la fermeture de la fenêtre
+            }
+        });
+    }
+
+    public class Dialogues{
+        public static boolean confirmation() {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
             alert.setHeaderText("Confirmation de fermeture");
             alert.setContentText("Êtes-vous sûr de vouloir fermer la fenêtre ?");
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                stage.close();
-            } else {
-                event.consume();
-            }
-        });
+            return result.orElse(ButtonType.NO) == ButtonType.OK;
+        }
     }
 
     public static void main(String[] args) {

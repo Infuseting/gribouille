@@ -20,22 +20,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.infuseting.gribouille.HelloController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Dessin">
+          <Menu fx:id="DessinDropdown" mnemonicParsing="false" text="Dessin">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Charger" />
-                  <MenuItem mnemonicParsing="false" text="Sauvegarder" />
-                  <MenuItem mnemonicParsing="false" text="Exporter" />
+                  <MenuItem fx:id="ChargerButton" mnemonicParsing="false" text="Charger" />
+                  <MenuItem fx:id="SaveButton" mnemonicParsing="false" text="Sauvegarder" />
+                  <MenuItem fx:id="ExportButton" mnemonicParsing="false" text="Exporter" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quitter" />
+                  <MenuItem fx:id="QuitButton" mnemonicParsing="false" text="Quitter" />
                </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Outils">
+            <Menu fx:id="OutilsDropdown" mnemonicParsing="false" text="Outils">
                <items>
-                  <Menu mnemonicParsing="false" text="Epaisseur">
+                  <Menu fx:id="EpaisseurButton" mnemonicParsing="false" text="Epaisseur">
                      <items>
                         <RadioMenuItem mnemonicParsing="false" text="1">
                            <toggleGroup>
@@ -52,17 +52,17 @@
                         <RadioMenuItem mnemonicParsing="false" text="9" toggleGroup="$Width" />
                      </items>
                   </Menu>
-                  <RadioMenuItem mnemonicParsing="false" text="Crayon ">
+                  <RadioMenuItem fx:id="CrayonButton" mnemonicParsing="false" text="Crayon ">
                      <toggleGroup>
                         <ToggleGroup fx:id="Tool" />
                      </toggleGroup>
                   </RadioMenuItem>
-                  <RadioMenuItem mnemonicParsing="false" text="Etoile" toggleGroup="$Tool" />
+                  <RadioMenuItem fx:id="EtoileButton" mnemonicParsing="false" text="Etoile" toggleGroup="$Tool" />
                </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Aide">
+          <Menu fx:id="AideDropdown" mnemonicParsing="false" text="Aide">
             <items>
-              <MenuItem mnemonicParsing="false" text="A propos" />
+              <MenuItem fx:id="AboutButton" mnemonicParsing="false" text="A propos" />
             </items>
           </Menu>
         </menus>
@@ -110,21 +110,21 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgrey;" BorderPane.alignment="CENTER">
          <children>
-            <ColorPicker />
+            <ColorPicker fx:id="ColorPicker" />
             <TilePane cache="true" depthTest="ENABLE" hgap="5.0" minWidth="115.0" prefColumns="2" prefHeight="250.0" prefWidth="105.0" vgap="5.0">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: red;" width="50.0">
+                  <Rectangle fx:id="redColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: red;" width="50.0">
                      <TilePane.margin>
                         <Insets />
                      </TilePane.margin>
                   </Rectangle>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: lightgreen;" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: purple;" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: aqua;" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: magenta;" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: yellow;" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: black;" width="50.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: white;" width="50.0" />
+                  <Rectangle fx:id="greenColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: lightgreen;" width="50.0" />
+                  <Rectangle fx:id="purpleColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: purple;" width="50.0" />
+                  <Rectangle fx:id="cyanColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: aqua;" width="50.0" />
+                  <Rectangle fx:id="pinkColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: magenta;" width="50.0" />
+                  <Rectangle fx:id="yellowColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: yellow;" width="50.0" />
+                  <Rectangle fx:id="blackColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: black;" width="50.0" />
+                  <Rectangle fx:id="whiteColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: white;" width="50.0" />
                </children>
                <padding>
                   <Insets left="5.0" right="5.0" />
@@ -134,10 +134,9 @@
       </VBox>
    </right>
    <center>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="CanvasFond" BorderPane.alignment="CENTER">
          <children>
-            <Canvas id="canvas" height="200.0" width="200.0" />
-         </children>
+             <Canvas fx:id="Canvas" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" />         </children>
       </Pane>
    </center>
 </BorderPane>

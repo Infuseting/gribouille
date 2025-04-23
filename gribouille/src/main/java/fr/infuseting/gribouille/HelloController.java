@@ -1,0 +1,135 @@
+package fr.infuseting.gribouille;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class HelloController implements Initializable {
+
+    @FXML
+    private MenuItem AboutButton;
+
+    @FXML
+    private Menu AideDropdown;
+
+    @FXML
+    private Canvas Canvas;
+
+    @FXML
+    private MenuItem ChargerButton;
+
+    @FXML
+    private ColorPicker ColorPicker;
+
+    @FXML
+    private RadioMenuItem CrayonButton;
+
+    @FXML
+    private Menu DessinDropdown;
+
+    @FXML
+    private Menu EpaisseurButton;
+
+    @FXML
+    private RadioMenuItem EtoileButton;
+
+    @FXML
+    private MenuItem ExportButton;
+
+    @FXML
+    private Menu OutilsDropdown;
+
+    @FXML
+    private MenuItem QuitButton;
+
+    @FXML
+    private MenuItem SaveButton;
+
+    @FXML
+    private ToggleGroup Tool;
+
+    @FXML
+    private ToggleGroup Width;
+
+    @FXML
+    private Rectangle blackColor;
+
+    @FXML
+    private Rectangle cyanColor;
+
+    @FXML
+    private Rectangle greenColor;
+
+    @FXML
+    private Rectangle pinkColor;
+
+    @FXML
+    private Rectangle purpleColor;
+
+    @FXML
+    private Rectangle redColor;
+
+    @FXML
+    private Rectangle whiteColor;
+
+    @FXML
+    private Rectangle yellowColor;
+
+    @FXML
+    private Pane CanvasFond;
+
+
+    private double prevX;
+    private double prevY;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        CanvasFond.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
+            CanvasFond.setPrefWidth(newValue.getWidth());
+            CanvasFond.setPrefHeight(newValue.getHeight());
+        });
+        // Bind the Canvas to the Pane
+        Canvas.widthProperty().bind(CanvasFond.widthProperty());
+        Canvas.heightProperty().bind(CanvasFond.heightProperty());
+
+        CanvasFond.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                Circle circle = new Circle(event.getX(), event.getY(), 5);
+                circle.setMouseTransparent(true);
+                CanvasFond.getChildren().add(circle);
+                event.consume();
+            }
+        });
+    }
+    @FXML
+    private void onMouseDragged(MouseEvent mouseEvent) {
+
+        double x = mouseEvent.getX();
+        double y = mouseEvent.getY();
+        Canvas.getGraphicsContext2D().strokeLine(prevX, prevY, x, y);
+        prevX = x;
+        prevY = y;
+    }
+
+    @FXML
+    private void onMousePressed(MouseEvent mouseEvent) {
+        double x = mouseEvent.getX();
+        double y = mouseEvent.getY();
+        prevX = x;
+        prevY = y;
+    }
+
+}
