@@ -1,5 +1,8 @@
 package fr.infuseting.gribouille;
 
+import fr.infuseting.gribouille.modele.Dessin;
+import fr.infuseting.gribouille.modele.Figure;
+import fr.infuseting.gribouille.modele.Trace;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -91,6 +94,12 @@ public class HelloController implements Initializable {
     @FXML
     private Pane CanvasFond;
 
+    private Dessin dessin;
+    private Trace currentTrace;
+
+    public void setDessin(Dessin dessin) {
+        this.dessin = dessin;
+    }
 
     private double prevX;
     private double prevY;
@@ -104,7 +113,9 @@ public class HelloController implements Initializable {
         // Bind the Canvas to the Pane
         Canvas.widthProperty().bind(CanvasFond.widthProperty());
         Canvas.heightProperty().bind(CanvasFond.heightProperty());
-
+        // Add listener to redraw figures when Canvas size changes
+        Canvas.widthProperty().addListener((observable, oldValue, newValue) -> redraw());
+        Canvas.heightProperty().addListener((observable, oldValue, newValue) -> redraw());
         CanvasFond.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 Circle circle = new Circle(event.getX(), event.getY(), 5);
@@ -114,22 +125,53 @@ public class HelloController implements Initializable {
             }
         });
     }
-    @FXML
-    private void onMouseDragged(MouseEvent mouseEvent) {
-
-        double x = mouseEvent.getX();
-        double y = mouseEvent.getY();
-        Canvas.getGraphicsContext2D().strokeLine(prevX, prevY, x, y);
-        prevX = x;
-        prevY = y;
-    }
 
     @FXML
     private void onMousePressed(MouseEvent mouseEvent) {
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
+
+        // Create a new Trace and add it to the Dessin
+        currentTrace = new Trace(1, "black", x, y); // Default thickness and color
+        dessin.addFigure(currentTrace);
+    }
+
+    @FXML
+    private void onMouseDragged(MouseEvent mouseEvent) {
+        double x = mouseEvent.getX();
+        double y = mouseEvent.getY();
+
+        // Add points to the current Trace
+        if (currentTrace != null) {
+            currentTrace.addPoint(x, y);
+        }
+
+        // Draw the current segment on the Canvas
+        Canvas.getGraphicsContext2D().strokeLine(prevX, prevY, x, y);
         prevX = x;
         prevY = y;
+    }
+
+    private void redraw() {
+        // Clear the Canvas
+        Canvas.getGraphicsContext2D().clearRect(0, 0, Canvas.getWidth(), Canvas.getHeight());
+
+        // Redraw all figures in the Dessin
+        for (Figure figure : dessin.getFigures()) {
+            if (figure instanceof Trace trace) {
+                var gc = Canvas.getGraphicsContext2D();
+                gc.setLineWidth(trace.getEpaisseur());
+                gc.setStroke(javafx.scene.paint.Paint.valueOf(trace.getCouleur()));
+
+                for (int i = 1; i < trace.getPoints().size(); i++) {
+                    double x1 = trace.getPoints().get(i - 1).getX();
+                    double y1 = trace.getPoints().get(i - 1).getY();
+                    double x2 = trace.getPoints().get(i).getX();
+                    double y2 = trace.getPoints().get(i).getY();
+                    gc.strokeLine(x1, y1, x2, y2);
+                }
+            }
+        }
     }
 
 }
