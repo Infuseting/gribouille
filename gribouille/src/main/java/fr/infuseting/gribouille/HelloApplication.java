@@ -39,6 +39,8 @@ public class HelloApplication extends Application {
             }
         });
         dessin.setOnMousePressed(this::onMousePressedDrawOnCanvas);
+
+        closeWindow(stage);
         dessin.setOnMouseDragged(this::onMouseDraggedDrawOnCanvas);
 
     }
@@ -60,24 +62,17 @@ public class HelloApplication extends Application {
         prevX = x;
         prevY = y;
     }
-
     public void closeWindow(Stage stage) {
         stage.setOnCloseRequest(event -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText("Confirmation de fermeture");
-            alert.setContentText("Êtes-vous sûr de vouloir fermer la fenêtre ?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                stage.close();
-            } else {
+            if (!Dialogues.confirmation()) {
                 event.consume();
             }
         });
     }
 
+
     public static void main(String[] args) {
         launch();
     }
 }
+
