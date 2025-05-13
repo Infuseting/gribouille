@@ -2,6 +2,7 @@ package fr.infuseting.tp3;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -13,11 +14,7 @@ public class GrilleController implements Initializable {
     @FXML
     private GridPane grille;
     private GrilleModel grilleModel;
-    private List<Label> labels = List.of(
-            new Label("1"), new Label("2"), new Label("3"),
-            new Label("4"), new Label("5"), new Label("6"),
-            new Label("7"), new Label("8"), new Label("9")
-    );
+
 
     public GrilleController(GrilleModel grilleModel) {
         this.grilleModel = grilleModel;
@@ -26,15 +23,22 @@ public class GrilleController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         grille.setStyle("-fx-background-color: seashell;");
-        for (Label label : labels) {
-            grille.add(label, labels.indexOf(label) % 3, labels.indexOf(label) / 3);
-            label.textProperty().bind(grilleModel.getCase(labels.indexOf(label) % 3, labels.indexOf(label) / 3));
-            label.setMaxWidth(Double.MAX_VALUE);
-            label.setMaxHeight(Double.MAX_VALUE);
-            label.setStyle("-fx-alignment: center;");
-            label.setOnMouseClicked(event -> {
-                label.setText("Bonjour !");
-            });
+        for (int lg = 0; lg < 3; lg++) {
+            for (int col = 0; col < 3; col++) {
+
+                grilleModel.setCase(lg, col, String.format("L%dC%d", lg, col));
+                Label label = new Label();
+                label.textProperty().bind(grilleModel.getCase(lg, col));
+                label.setMaxWidth(1000);
+                label.setMaxHeight(1000);
+                label.setAlignment(Pos.CENTER);
+                int finalLg = lg;
+                int finalCol = col;
+                label.setOnMouseClicked(event -> {
+                    grilleModel.setCase(finalLg, finalCol, "bonjour");
+                });
+                grille.add(label, col, lg);
+            }
         }
     }
 }
