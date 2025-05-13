@@ -45,28 +45,15 @@ public class DessinController  implements Initializable {
     private void onMousePressed(MouseEvent mouseEvent) {
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
+        controleur.outilCourant.onMousePressed(x, y);
 
-        // Create a new Trace and add it to the Dessin
-        controleur.actualFigure = new Trace(1, "black", x, y); // Default thickness and color
-        controleur.dessin.addFigure(controleur.actualFigure);
-        controleur.prevX.set(mouseEvent.getX());
-        controleur.prevY.set(mouseEvent.getY());
     }
 
     @FXML
     private void onMouseDragged(MouseEvent mouseEvent) {
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
-
-        // Add points to the current Trace
-        if (controleur.actualFigure != null) {
-            controleur.actualFigure.addPoint(x, y);
-        }
-
-        // Draw the current segment on the Canvas
-        Canvas.getGraphicsContext2D().strokeLine(controleur.prevX.getValue(), controleur.prevY.getValue(), x, y);
-        controleur.prevX.set(mouseEvent.getX());
-        controleur.prevY.set(mouseEvent.getY());
+        controleur.outilCourant.onMouseDragged(x, y);
     }
 
     @FXML

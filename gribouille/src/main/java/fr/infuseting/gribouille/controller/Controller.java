@@ -5,10 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.infuseting.gribouille.Dialogues;
-import fr.infuseting.gribouille.modele.Dessin;
-import fr.infuseting.gribouille.modele.Figure;
-import fr.infuseting.gribouille.modele.Point;
-import fr.infuseting.gribouille.modele.Trace;
+import fr.infuseting.gribouille.modele.*;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -27,10 +24,10 @@ public class Controller implements Initializable {
     public final SimpleIntegerProperty epaisseur = new SimpleIntegerProperty(1);
     public final SimpleObjectProperty<Color> couleur = new SimpleObjectProperty<Color>(Color.BLACK);
 
-    @FXML private MenusController menusController;
-    @FXML private DessinController dessinController;
-    @FXML private StatutController statutController;
-    @FXML private CouleursController couleursController;
+    @FXML public MenusController menusController;
+    @FXML public DessinController dessinController;
+    @FXML public StatutController statutController;
+    @FXML public CouleursController couleursController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -55,6 +52,7 @@ public class Controller implements Initializable {
     };
 
     public void onEtoile() {
+        System.out.println("Etoile");
         outilCourant = new OutilEtoile(this);
         statutController.tool.setText("Etoile");
     };
@@ -63,12 +61,24 @@ public class Controller implements Initializable {
         GraphicsContext gc = dessinController.Canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         for (Figure f : dessin.getFigures()) {
+
             for (int i = 1; i < f.getPoints().size(); i++) {
-                double x0 = f.getPoints().get(i-1).getX();
-                double y0 = f.getPoints().get(i-1).getY();
-                double x1 = f.getPoints().get(i).getX();
-                double y1 = f.getPoints().get(i).getY();
-                gc.strokeLine(x0, y0, x1, y1);
+                if (f instanceof  Trace) {
+                    double x0 = f.getPoints().get(i-1).getX();
+                    double y0 = f.getPoints().get(i-1).getY();
+                    double x1 = f.getPoints().get(i).getX();
+                    double y1 = f.getPoints().get(i).getY();
+                    gc.strokeLine(x0, y0, x1, y1);
+                } else if (f instanceof Etoile) {
+                    double x = f.getPoints().get(0).getX();
+                    double y = f.getPoints().get(0).getY();
+
+                    double x1 = f.getPoints().get(i).getX();
+                    double y1 = f.getPoints().get(i).getY();
+                    gc.strokeLine(x, y, x1, y1);
+
+                }
+
             }
         }
     }

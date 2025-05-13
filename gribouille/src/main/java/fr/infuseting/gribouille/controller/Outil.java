@@ -4,14 +4,15 @@ import fr.infuseting.gribouille.modele.Figure;
 
 public abstract class Outil {
 
-    protected Figure figureCourante;
+    protected Figure actualFigure;
     protected Controller controleur;
 
     public Outil(Controller c) {
         controleur = c;
     }
 
-    public void onMousePress() {};
+    public void onMousePressed(double x, double y) {};
 
-    public void onMouseDrag() {};
+    public void onMouseDragged(double x, double y) {};
+
 }
