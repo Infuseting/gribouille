@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<?import javafx.geometry.Insets?>
+<VBox style="-fx-background-color: lightgrey" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.infuseting.gribouille.controller.CouleursController">
+    <children>
+        <ColorPicker fx:id="ColorPicker" />
+        <TilePane cache="true" depthTest="ENABLE" hgap="5.0" minWidth="115.0" prefColumns="2" prefHeight="250.0" prefWidth="105.0" vgap="5.0">
+            <children>
+                <Rectangle fx:id="redColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: red;" width="50.0">
+                    <TilePane.margin>
+                        <Insets />
+                    </TilePane.margin>
+                </Rectangle>
+                <Rectangle fx:id="greenColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: lightgreen;" width="50.0" />
+                <Rectangle fx:id="purpleColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: purple;" width="50.0" />
+                <Rectangle fx:id="cyanColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: aqua;" width="50.0" />
+                <Rectangle fx:id="pinkColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: magenta;" width="50.0" />
+                <Rectangle fx:id="yellowColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: yellow;" width="50.0" />
+                <Rectangle fx:id="blackColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: black;" width="50.0" />
+                <Rectangle fx:id="whiteColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: white;" width="50.0" />
+            </children>
+            <padding>
+                <Insets left="5.0" right="5.0" />
+            </padding>
+        </TilePane>
+    </children>
+</VBox>

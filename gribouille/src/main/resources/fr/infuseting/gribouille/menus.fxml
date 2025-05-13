@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<MenuBar xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.infuseting.gribouille.controller.MenusController">
+    <menus>
+        <Menu fx:id="DessinDropdown" mnemonicParsing="false" text="Dessin">
+            <items>
+                <MenuItem fx:id="ChargerButton" mnemonicParsing="false" text="Charger" />
+                <MenuItem fx:id="SaveButton" mnemonicParsing="false" text="Sauvegarder" />
+                <MenuItem fx:id="ExportButton" mnemonicParsing="false" text="Exporter" />
+                <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem fx:id="QuitButton" onAction="#onQuitte" mnemonicParsing="false" text="Quitter" />
+            </items>
+        </Menu>
+        <Menu fx:id="OutilsDropdown" mnemonicParsing="false" text="Outils">
+            <items>
+                <Menu fx:id="EpaisseurButton" mnemonicParsing="false" text="Epaisseur">
+                    <items>
+                        <RadioMenuItem mnemonicParsing="false" text="1">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="Width" />
+                            </toggleGroup>
+                        </RadioMenuItem>
+                        <RadioMenuItem mnemonicParsing="false" text="2" toggleGroup="$Width" />
+                        <RadioMenuItem mnemonicParsing="false" text="3" toggleGroup="$Width" />
+                        <RadioMenuItem mnemonicParsing="false" text="4" toggleGroup="$Width" />
+                        <RadioMenuItem mnemonicParsing="false" text="5" toggleGroup="$Width" />
+                        <RadioMenuItem mnemonicParsing="false" text="6" toggleGroup="$Width" />
+                        <RadioMenuItem mnemonicParsing="false" text="7" toggleGroup="$Width" />
+                        <RadioMenuItem mnemonicParsing="false" text="8" toggleGroup="$Width" />
+                        <RadioMenuItem mnemonicParsing="false" text="9" toggleGroup="$Width" />
+                    </items>
+                </Menu>
+                <RadioMenuItem fx:id="CrayonButton" mnemonicParsing="false" text="Crayon ">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="Tool" />
+                    </toggleGroup>
+                </RadioMenuItem>
+                <RadioMenuItem fx:id="EtoileButton" mnemonicParsing="false" text="Etoile" toggleGroup="$Tool" />
+            </items>
+        </Menu>
+        <Menu fx:id="AideDropdown" mnemonicParsing="false" text="Aide">
+            <items>
+                <MenuItem fx:id="AboutButton" mnemonicParsing="false" text="A propos" />
+            </items>
+        </Menu>
+    </menus>
+</MenuBar>

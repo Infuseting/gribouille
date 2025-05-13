@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="CanvasFond" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.infuseting.gribouille.controller.DessinController">
+    <children>
+        <Canvas fx:id="Canvas" onMouseMoved="#onMouseMoved" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" />         </children>
+</Pane>

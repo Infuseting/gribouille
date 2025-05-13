@@ -5,4 +5,6 @@ module fr.infuseting.gribouille {
 
     opens fr.infuseting.gribouille to javafx.fxml;
     exports fr.infuseting.gribouille;
+    exports fr.infuseting.gribouille.controller;
+    opens fr.infuseting.gribouille.controller to javafx.fxml;
 }
