@@ -33,13 +33,14 @@ public class GrilleController implements Initializable {
   private @FXML GridPane grille;
   private @FXML HBox statut;
   private @FXML Label joueur;
-
+  private @FXML MenuController menusController;
   private Label[][] contenu = new Label[3][3];
 
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     grille.setStyle("-fx-background-color: seashell");
+    menusController.setParams(modele, table);
     for (int l=0; l<3; ++l)
       for (int c=0; c<3; ++c) {
         Label label =new Label();
@@ -88,31 +89,5 @@ public class GrilleController implements Initializable {
 
     modele.nouvellePartie();
 
-  }
-
-  @FXML
-  public void onMenuNouvelle(ActionEvent evt) {
-    modele.nouvellePartie();
-  }
-  @FXML
-  public void onMenuTable(ActionEvent evt) {
-    try {
-      System.out.println("Table des scores");
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("table.fxml"));
-      Scene scene = new Scene(fxmlLoader.load());
-      Stage stage = new Stage();
-      TableController controller = fxmlLoader.getController();
-      controller.setScores(table);
-      stage.setTitle("Table des Scores");
-      stage.setScene(scene);
-      stage.show();
-    } catch (IOException e) {
-      new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la table des scores.").showAndWait();
-    }
-  }
-
-  @FXML
-  public void onMenuQuitter(ActionEvent evt) {
-    Platform.exit();
   }
 }
