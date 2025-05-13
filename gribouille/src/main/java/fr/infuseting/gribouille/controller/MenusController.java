@@ -26,13 +26,15 @@ public class MenusController  implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tool.selectedToggleProperty().addListener((observableValue, oldValue, newValue) -> {
+            System.out.println("Selected tool: " + newValue);
+            System.out.println("Old tool: " + oldValue);
             if (newValue != null) {
                 String id = ((RadioMenuItem) newValue).getId();
 
-                if (id.equals("etoile")) {
+                if (id.equals("EtoileButton")) {
                     controleur.onEtoile();
                 }
-                else if (id.equals("crayon")) {
+                else if (id.equals("CrayonButton")) {
                     controleur.onCrayon();
                 }
             }
