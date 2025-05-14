@@ -53,7 +53,6 @@ public class Controller implements Initializable {
     };
 
     public void onEtoile() {
-        System.out.println("Etoile");
         outilCourant = new OutilEtoile(this);
         statutController.tool.setText("Etoile");
     };
@@ -71,7 +70,6 @@ public class Controller implements Initializable {
         GraphicsContext gc = dessinController.Canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         for (Figure f : dessin.getFigures()) {
-
             for (int i = 1; i < f.getPoints().size(); i++) {
                 gc.setLineWidth(f.getEpaisseur());
                 gc.setStroke(Paint.valueOf(f.getCouleur()));
@@ -95,34 +93,54 @@ public class Controller implements Initializable {
             }
         }
     }
+
+    public void newForme() {
+        if (actualFigure != null) {
+            outilCourant.initForme(prevX.get(), prevY.get());
+
+        }
+    }
     public void onKeyPressed(String key) {
         switch (key.toLowerCase()) {
             case "c": // Change to Crayon
                 onCrayon();
+                newForme();
                 break;
             case "e": // Change to Etoile
                 onEtoile();
+                newForme();
                 break;
             case "+": // Increase thickness
                 setEpaisseur(epaisseur.get() + 1);
+                actualFigure = actualFigure.changeEpaisseur(epaisseur.get());
+                dessin.addFigure(actualFigure);
                 break;
             case "-": // Decrease thickness
                 if (epaisseur.get() > 1) {
                     setEpaisseur(epaisseur.get() - 1);
+                    actualFigure = actualFigure.changeEpaisseur(epaisseur.get());
+                    dessin.addFigure(actualFigure);
                 }
                 break;
-            case "r": // Change color to Red
+            case "r":
                 setCouleur(Color.RED);
+                actualFigure = actualFigure.changeCouleur(couleur.get().toString());
+                dessin.addFigure(actualFigure);
                 break;
             case "b": // Change color to Blue
                 setCouleur(Color.BLUE);
+                actualFigure = actualFigure.changeCouleur(couleur.get().toString());
+                dessin.addFigure(actualFigure);
                 break;
             case "g": // Change color to Green
                 setCouleur(Color.GREEN);
+                actualFigure = actualFigure.changeCouleur(couleur.get().toString());
+                dessin.addFigure(actualFigure);
                 break;
             default:
                 break;
         }
+        newForme();
     }
 
     public boolean onQuitter() {

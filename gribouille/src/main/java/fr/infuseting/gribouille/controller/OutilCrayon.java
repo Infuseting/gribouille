@@ -9,11 +9,14 @@ public class OutilCrayon extends Outil {
         super(c);
     }
 
-    public void onMousePressed(double x, double y) {
-        controleur.actualFigure = new Trace(controleur.epaisseur.get(), controleur.couleur.asString().getValue(), x, y); // Default thickness and color
+    public void initForme(double x, double y) {
+        controleur.actualFigure = new Trace(controleur.epaisseur.get(), controleur.couleur.asString().getValue(), x, y);
         controleur.dessin.addFigure(controleur.actualFigure);
         controleur.prevX.set(x);
         controleur.prevY.set(y);
+    }
+    public void onMousePressed(double x, double y) {
+        initForme(x, y);
     }
 
     public void onMouseDragged(double x, double y) {

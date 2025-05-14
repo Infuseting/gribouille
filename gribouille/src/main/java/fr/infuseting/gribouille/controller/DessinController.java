@@ -62,6 +62,7 @@ public class DessinController  implements Initializable {
     private void onMouseDragged(MouseEvent mouseEvent) {
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
+        System.out.println(controleur.dessin.getFigures());
         controleur.outilCourant.onMouseDragged(x, y);
     }
 
