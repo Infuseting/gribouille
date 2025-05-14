@@ -44,7 +44,7 @@ public class MenusController  implements Initializable {
             if (newValue != null) {
                 String id = ((RadioMenuItem) newValue).getText();
                 controleur.epaisseur.set(Integer.parseInt(id));
-                controleur.dessinController.setEpaisseur(Integer.parseInt(id));
+                controleur.setEpaisseur(Integer.parseInt(id));
             }
         });
     }

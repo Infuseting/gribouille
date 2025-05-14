@@ -3,7 +3,10 @@ package fr.infuseting.gribouille.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import org.w3c.dom.events.EventTarget;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +22,8 @@ public class CouleursController implements Initializable {
     @FXML public Rectangle yellowColor;
     @FXML public Rectangle blackColor;
     @FXML public Rectangle whiteColor;
+    @FXML public VBox colorContainer;
+    @FXML public TilePane rectangleContainer;
 
     private Controller controleur;
 
@@ -28,6 +33,27 @@ public class CouleursController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO Auto-generated method stub
+        blackColor.setArcHeight(10);
+        blackColor.setArcWidth(10);
+        blackColor.setStrokeWidth(5);
+
+        colorContainer.setOnMouseClicked(event -> {
+            rectangleContainer.getChildren().forEach(node -> {
+                if (node instanceof Rectangle) {
+                    Rectangle rectangle = (Rectangle) node;
+                    rectangle.setArcWidth(5);
+                    rectangle.setArcHeight(5);
+                    rectangle.setStrokeWidth(1);
+                }
+            });
+            if (event.getTarget() instanceof Rectangle) {
+                Rectangle clickedRectangle = (Rectangle) event.getTarget();
+                controleur.couleur.set(clickedRectangle.getFill());
+                controleur.setCouleur(clickedRectangle.getFill());
+                clickedRectangle.setArcWidth(10);
+                clickedRectangle.setArcHeight(10);
+                clickedRectangle.setStrokeWidth(5);
+            }
+        });
     }
 }

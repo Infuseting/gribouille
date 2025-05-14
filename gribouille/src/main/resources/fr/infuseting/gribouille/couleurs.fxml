@@ -6,10 +6,10 @@
 <?import javafx.scene.shape.Rectangle?>
 
 <?import javafx.geometry.Insets?>
-<VBox style="-fx-background-color: lightgrey" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.infuseting.gribouille.controller.CouleursController">
+<VBox fx:id="colorContainer" style="-fx-background-color: lightgrey" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.infuseting.gribouille.controller.CouleursController">
     <children>
         <ColorPicker fx:id="ColorPicker" />
-        <TilePane cache="true" depthTest="ENABLE" hgap="5.0" minWidth="115.0" prefColumns="2" prefHeight="250.0" prefWidth="105.0" vgap="5.0">
+        <TilePane fx:id="rectangleContainer" cache="true" depthTest="ENABLE" hgap="5.0" minWidth="115.0" prefColumns="2" prefHeight="250.0" prefWidth="105.0" vgap="5.0">
             <children>
                 <Rectangle fx:id="redColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: red;" width="50.0">
                     <TilePane.margin>

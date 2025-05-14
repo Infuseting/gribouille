@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.WindowEvent;
 public class Controller implements Initializable {
     public final Dessin dessin = new Dessin();
@@ -22,7 +23,7 @@ public class Controller implements Initializable {
     public final SimpleDoubleProperty prevX = new SimpleDoubleProperty();
     public final SimpleDoubleProperty prevY = new SimpleDoubleProperty();
     public final SimpleIntegerProperty epaisseur = new SimpleIntegerProperty(1);
-    public final SimpleObjectProperty<Color> couleur = new SimpleObjectProperty<Color>(Color.BLACK);
+    public final SimpleObjectProperty<Paint> couleur = new SimpleObjectProperty<Paint>(Color.BLACK);
 
     @FXML public MenusController menusController;
     @FXML public DessinController dessinController;
@@ -57,6 +58,15 @@ public class Controller implements Initializable {
         statutController.tool.setText("Etoile");
     };
 
+    public void setCouleur(Paint color) {
+        couleur.set(color);
+        dessinController.setCouleur(color);
+    }
+    public void setEpaisseur(int epaisseur) {
+        this.epaisseur.set(epaisseur);
+        dessinController.setEpaisseur(epaisseur);
+    }
+
     public void dessine() {
         GraphicsContext gc = dessinController.Canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
@@ -64,6 +74,7 @@ public class Controller implements Initializable {
 
             for (int i = 1; i < f.getPoints().size(); i++) {
                 gc.setLineWidth(f.getEpaisseur());
+                gc.setStroke(Paint.valueOf(f.getCouleur()));
                 if (f instanceof  Trace) {
 
                     double x0 = f.getPoints().get(i-1).getX();
@@ -82,6 +93,35 @@ public class Controller implements Initializable {
                 }
 
             }
+        }
+    }
+    public void onKeyPressed(String key) {
+        switch (key.toLowerCase()) {
+            case "c": // Change to Crayon
+                onCrayon();
+                break;
+            case "e": // Change to Etoile
+                onEtoile();
+                break;
+            case "+": // Increase thickness
+                setEpaisseur(epaisseur.get() + 1);
+                break;
+            case "-": // Decrease thickness
+                if (epaisseur.get() > 1) {
+                    setEpaisseur(epaisseur.get() - 1);
+                }
+                break;
+            case "r": // Change color to Red
+                setCouleur(Color.RED);
+                break;
+            case "b": // Change color to Blue
+                setCouleur(Color.BLUE);
+                break;
+            case "g": // Change color to Green
+                setCouleur(Color.GREEN);
+                break;
+            default:
+                break;
         }
     }
 

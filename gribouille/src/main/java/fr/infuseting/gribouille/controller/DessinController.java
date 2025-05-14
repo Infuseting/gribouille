@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 
 public class DessinController  implements Initializable {
 
@@ -44,6 +45,10 @@ public class DessinController  implements Initializable {
     public void setEpaisseur(int epaisseur) {
         Canvas.getGraphicsContext2D().setLineWidth(epaisseur);
     }
+    public void setCouleur(Paint color) {
+        Canvas.getGraphicsContext2D().setStroke(color);
+    }
+
 
     @FXML
     private void onMousePressed(MouseEvent mouseEvent) {

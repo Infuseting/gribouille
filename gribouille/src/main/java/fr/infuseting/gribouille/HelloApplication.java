@@ -14,12 +14,14 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CadreGribouille.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        Controller controller = new Controller();
+        Controller controller = fxmlLoader.getController();
         controller.dessin.setNomDuFichier("Nouveau Dessin");
-
         // Bind the stage title to the nomDuFichier property
         stage.titleProperty().bind(controller.dessin.nomDuFichierProperty());
         stage.setScene(scene);
+
+        stage.getScene().setOnKeyPressed(event -> controller.onKeyPressed(event.getText()));
+
         stage.show();
         closeWindow(stage, controller);
 

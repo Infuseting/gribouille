@@ -1,6 +1,7 @@
 module fr.infuseting.gribouille {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens fr.infuseting.gribouille to javafx.fxml;
