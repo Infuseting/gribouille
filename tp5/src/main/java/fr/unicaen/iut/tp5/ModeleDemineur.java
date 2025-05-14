@@ -58,6 +58,7 @@ public class ModeleDemineur {
       }
     }
     nbInconnues.set(tailleX*tailleY);
+    nbMarques.set(0);
     perdu.set(false);
   } // void setTaille(...)
 

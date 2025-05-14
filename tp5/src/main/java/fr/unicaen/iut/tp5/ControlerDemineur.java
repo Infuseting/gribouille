@@ -20,18 +20,19 @@ public class ControlerDemineur implements Initializable {
     @FXML private TextField marquesInput;
     @FXML private GridPane grid;
 
-    private ModeleDemineur modeleDemineur = new ModeleDemineur(0, 0, 0);
+    private ModeleDemineur modeleDemineur;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        inconnuInput.textProperty().bind(modeleDemineur.nbInconnuesProperty().asString());
-        marquesInput.textProperty().bind(modeleDemineur.nbMarquesProperty().asString());
+
 
         difficulty.selectedToggleProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         String selectedDifficulty = newValue.getUserData().toString();
                         initGrille(selectedDifficulty);
+                        inconnuInput.textProperty().bind(modeleDemineur.nbInconnuesProperty().asString());
+                        marquesInput.textProperty().bind(modeleDemineur.nbMarquesProperty().asString());
                     }
                 }
         );
@@ -44,7 +45,9 @@ public class ControlerDemineur implements Initializable {
         grid.getColumnConstraints().clear();
 
         int[] data = ModeleDemineur.parseUserData(selectedDifficulty);
-        modeleDemineur = new ModeleDemineur(data[0], data[1], data[2]);
+        this.modeleDemineur = new ModeleDemineur(data[0], data[1], data[2]);
+        inconnuInput.textProperty().bind(modeleDemineur.nbInconnuesProperty().asString());
+        marquesInput.textProperty().bind(modeleDemineur.nbMarquesProperty().asString());
 
         for (int row = 0; row < data[0]; row++) {
             for (int col = 0; col < data[1]; col++) {
