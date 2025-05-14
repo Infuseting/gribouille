@@ -49,6 +49,7 @@ public class Controller implements Initializable {
 
     public void onCrayon() {
         outilCourant = new OutilCrayon(this);
+
         statutController.tool.setText("Crayon");
     };
 

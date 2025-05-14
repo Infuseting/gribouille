@@ -12,7 +12,7 @@ public class OutilEtoile extends Outil {
         super(c);
     }
     public void initForme(double x, double y) {
-        controleur.actualFigure = new Trace(controleur.epaisseur.get(), controleur.couleur.asString().getValue(), x, y);
+        controleur.actualFigure = new Etoile(controleur.epaisseur.get(), controleur.couleur.asString().getValue(), x, y);
         controleur.dessin.addFigure(controleur.actualFigure);
         x1 = x;
         y1 = y;
