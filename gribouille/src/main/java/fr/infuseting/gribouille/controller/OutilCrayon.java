@@ -8,7 +8,7 @@ public class OutilCrayon extends Outil {
     }
 
     public void onMousePressed(double x, double y) {
-        controleur.actualFigure = new Trace(1, "black", x, y); // Default thickness and color
+        controleur.actualFigure = new Trace(controleur.epaisseur.get(), "black", x, y); // Default thickness and color
         controleur.dessin.addFigure(controleur.actualFigure);
         controleur.prevX.set(x);
         controleur.prevY.set(y);

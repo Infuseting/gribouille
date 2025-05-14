@@ -14,7 +14,7 @@ public class OutilEtoile extends Outil {
 
 
     public void onMousePressed(double x, double y) {
-        controleur.actualFigure = new Etoile(1, "black", x, y); // Default thickness and color
+        controleur.actualFigure = new Etoile(controleur.epaisseur.get(), "black", x, y); // Default thickness and color
         controleur.dessin.addFigure(controleur.actualFigure);
         x1 = x;
         y1 = y;

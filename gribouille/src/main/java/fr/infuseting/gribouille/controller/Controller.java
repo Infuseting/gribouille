@@ -63,7 +63,9 @@ public class Controller implements Initializable {
         for (Figure f : dessin.getFigures()) {
 
             for (int i = 1; i < f.getPoints().size(); i++) {
+                gc.setLineWidth(f.getEpaisseur());
                 if (f instanceof  Trace) {
+
                     double x0 = f.getPoints().get(i-1).getX();
                     double y0 = f.getPoints().get(i-1).getY();
                     double x1 = f.getPoints().get(i).getX();

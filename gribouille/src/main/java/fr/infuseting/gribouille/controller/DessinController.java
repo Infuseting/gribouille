@@ -41,6 +41,10 @@ public class DessinController  implements Initializable {
         Canvas.getGraphicsContext2D().strokeLine(x1, y1, x2, y2);
     }
 
+    public void setEpaisseur(int epaisseur) {
+        Canvas.getGraphicsContext2D().setLineWidth(epaisseur);
+    }
+
     @FXML
     private void onMousePressed(MouseEvent mouseEvent) {
         double x = mouseEvent.getX();

@@ -26,8 +26,7 @@ public class MenusController  implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tool.selectedToggleProperty().addListener((observableValue, oldValue, newValue) -> {
-            System.out.println("Selected tool: " + newValue);
-            System.out.println("Old tool: " + oldValue);
+
             if (newValue != null) {
                 String id = ((RadioMenuItem) newValue).getId();
 
@@ -36,7 +35,16 @@ public class MenusController  implements Initializable {
                 }
                 else if (id.equals("CrayonButton")) {
                     controleur.onCrayon();
+
                 }
+            }
+        });
+        Width.selectedToggleProperty().addListener((observableValue, oldValue, newValue) -> {
+
+            if (newValue != null) {
+                String id = ((RadioMenuItem) newValue).getText();
+                controleur.epaisseur.set(Integer.parseInt(id));
+                controleur.dessinController.setEpaisseur(Integer.parseInt(id));
             }
         });
     }
