@@ -2,8 +2,10 @@ package fr.unicaen.iut.tp5;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -44,18 +46,30 @@ public class ControlerDemineur implements Initializable {
         int[] data = ModeleDemineur.parseUserData(selectedDifficulty);
         modeleDemineur = new ModeleDemineur(data[0], data[1], data[2]);
 
-        for (int i = 0; i < data[0]; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setPrefHeight(32);
-            grid.getRowConstraints().add(row);
-        }
+        for (int row = 0; row < data[0]; row++) {
+            for (int col = 0; col < data[1]; col++) {
+                Label label = new Label();
+                label.setPrefSize(31, 31);
+                label.setBackground(CaseType.INCONNUE.getBackground());
+                label.setStyle("-fx-alignment: center;");
 
-        for (int i = 0; i < data[1]; i++) {
-            ColumnConstraints column = new ColumnConstraints();
-            column.setPrefWidth(32);
-            grid.getColumnConstraints().add(column);
-        }
-        System.out.println("Finished creating grid with " + data[0] + " rows and " + data[1] + " columns.");
 
+                label.textProperty().bind(modeleDemineur.texteProperty(row, col));
+
+                int finalRow = row;
+                int finalCol = col;
+                label.setOnMouseClicked(event -> {
+                    if (event.getButton() == MouseButton.PRIMARY)  {
+                        modeleDemineur.revele(finalRow, finalCol);
+
+                    } else if (event.getButton() == MouseButton.SECONDARY) {
+                        modeleDemineur.marque(finalRow, finalCol);
+                    }
+                    label.setBackground(CaseType.getBackground(modeleDemineur.texteProperty(finalRow, finalCol).get()));
+                });
+
+                grid.add(label, col, row);
+            }
+        }
     }
 }
