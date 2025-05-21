@@ -23,7 +23,9 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.awt.*;
 import java.net.URL;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -45,6 +47,27 @@ public class FactureController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+      qte.setCellFactory(cell -> new TextFieldTableCell<>(new IntegerStringConverter()));
+      List<Produit> produitList = FabriqueProduits.getProduits();
+      produitList.removeIf(produit1 -> {
+          return produit1.getNom().equalsIgnoreCase("Promotion");
+      });
+      produit.setCellFactory(cell -> new ChoiceBoxTableCell<>(new StringConverter<Produit>() {
+          @Override
+          public String toString(Produit produit) {
+              return produit.getNom();
+          }
+
+          @Override
+          public Produit fromString(String s) {
+              return FabriqueProduits.getProduits()
+                      .stream()
+                      .filter(produit -> produit.getNom().equals(s))
+                      .findFirst()
+                      .orElse(null);
+          }
+      }, FXCollections.observableList(produitList)));
+
   }
 
   public void onAjouter(ActionEvent actionEvent) {
@@ -68,7 +91,7 @@ public class FactureController implements Initializable {
               new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
                 @Override
                 public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
-                  return ligneNumberCellDataFeatures.getValue().produitProperty().getValue().prixProperty();
+                  return Bindings.selectFloat(ligneNumberCellDataFeatures.getValue().produitProperty(), "prix");
                 }
             };
     Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackTotalHT =
