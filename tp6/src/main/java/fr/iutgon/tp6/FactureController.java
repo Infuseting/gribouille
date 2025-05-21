@@ -45,7 +45,6 @@ public class FactureController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    //TODO préparer la table
   }
 
   public void onAjouter(ActionEvent actionEvent) {

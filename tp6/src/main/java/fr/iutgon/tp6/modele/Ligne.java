@@ -16,7 +16,12 @@ public class Ligne {
 
   /** Construit une ligne de facture */
   public Ligne(int qte, Produit produit) {
-    //TODO préparer la ligne
+    this.qte = new SimpleIntegerProperty(qte);
+    this.produit = new SimpleObjectProperty<>(produit);
+    this.totalHT = Bindings.multiply(this.qte, Bindings.selectFloat(this.produitProperty(), "prix"));
+    this.totalTTC = Bindings.multiply(totalHT, Bindings.selectFloat(this.produitProperty(), "tva"));
+
+
   }
 
   @Override
