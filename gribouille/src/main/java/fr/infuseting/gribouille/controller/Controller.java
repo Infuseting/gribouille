@@ -152,7 +152,20 @@ public class Controller implements Initializable {
         }
         return false;
     }
-
+    public void onCharger() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Charger un dessin");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Fichiers dessin", "*.grb")
+        );
+        Stage stage = (Stage) dessinController.Canvas.getScene().getWindow();
+        java.io.File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            dessin.charge(file.getAbsolutePath());
+            dessin.setNomDuFichier(file.getName());
+            dessine();
+        }
+    }
     public void onSauvegarde() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Sauvegarder le dessin");

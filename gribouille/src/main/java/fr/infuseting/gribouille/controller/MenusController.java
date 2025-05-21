@@ -19,6 +19,7 @@ public class MenusController  implements Initializable {
     @FXML public RadioMenuItem EtoileButton;
 
     @FXML public MenuItem SaveButton;
+    @FXML public MenuItem ChargerButton;
 
 
     private Controller controleur;
@@ -54,6 +55,9 @@ public class MenusController  implements Initializable {
 
         SaveButton.setOnAction(event -> {
             controleur.onSauvegarde();
+        });
+        ChargerButton.setOnAction(event -> {
+            controleur.onCharger();
         });
     }
 
