@@ -5,7 +5,9 @@ import fr.iutgon.tp6.modele.Ligne;
 import fr.iutgon.tp6.modele.Produit;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberExpression;
+import javafx.beans.property.FloatProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +39,7 @@ public class FactureController implements Initializable {
   public TableColumn<Ligne, Number> totalHT;
   public TableColumn<Ligne, Number> totalTTC;
   public TextField sommeFacture;
-
+  public NumberExpression total = new SimpleFloatProperty(0.0f);
   /**
    Called to initialize a controller after its root element has been completely processed.
 
@@ -47,11 +49,57 @@ public class FactureController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-      qte.setCellFactory(cell -> new TextFieldTableCell<>(new IntegerStringConverter()));
+      qte.setCellFactory(cell ->
+           new TextFieldTableCell<>(new IntegerStringConverter())
+      );
       List<Produit> produitList = FabriqueProduits.getProduits();
       produitList.removeIf(produit1 -> {
           return produit1.getNom().equalsIgnoreCase("Promotion");
       });
+      Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackQuantite =
+              new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
+                  @Override
+                  public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneProduitCellDataFeatures) {
+                      return ligneProduitCellDataFeatures.getValue().qteProperty();
+                  }
+              };
+      Callback<TableColumn.CellDataFeatures<Ligne, Produit>, ObservableValue<Produit>> callbackProduit =
+              new Callback<TableColumn.CellDataFeatures<Ligne, Produit>, ObservableValue<Produit>>() {
+                  @Override
+                  public ObservableValue<Produit> call(TableColumn.CellDataFeatures<Ligne, Produit> ligneProduitCellDataFeatures) {
+                      return ligneProduitCellDataFeatures.getValue().produitProperty();
+                  }
+              };
+      Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackPrixUnit =
+              new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
+                  @Override
+                  public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
+                      return Bindings.selectFloat(ligneNumberCellDataFeatures.getValue().produitProperty(), "prix");
+                  }
+              };
+      Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackTotalHT =
+              new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
+                  @Override
+                  public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
+                      return ligneNumberCellDataFeatures.getValue().totalHTProperty();
+                  }
+              };
+      Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackTotalTTC =
+              new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
+                  @Override
+                  public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
+                      return ligneNumberCellDataFeatures.getValue().totalTTCProperty();
+
+
+                  }
+              };
+
+      qte.setCellValueFactory(cellData -> cellData.getValue().qteProperty().asObject());
+      produit.setCellValueFactory(callbackProduit);
+      prixUnitaire.setCellValueFactory(callbackPrixUnit);
+      totalHT.setCellValueFactory(callbackTotalHT);
+      totalTTC.setCellValueFactory(callbackTotalTTC);
+      sommeFacture.textProperty().bind(total.asString());
       produit.setCellFactory(cell -> new ChoiceBoxTableCell<>(new StringConverter<Produit>() {
           @Override
           public String toString(Produit produit) {
@@ -68,51 +116,13 @@ public class FactureController implements Initializable {
           }
       }, FXCollections.observableList(produitList)));
 
+
   }
 
   public void onAjouter(ActionEvent actionEvent) {
     Ligne ligne = new Ligne(new Random().nextInt(10) + 1, FabriqueProduits.getProduits().get(new Random().nextInt(FabriqueProduits.getProduits().size() - 1)) );
+    total = Bindings.add(total, ligne.totalTTCProperty());
+    sommeFacture.textProperty().bind(total.asString());
     table.getItems().add(ligne);
-    Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackQuantite =
-            new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
-              @Override
-              public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneProduitCellDataFeatures) {
-                return ligneProduitCellDataFeatures.getValue().qteProperty();
-              }
-            };
-    Callback<TableColumn.CellDataFeatures<Ligne, Produit>, ObservableValue<Produit>> callbackProduit =
-            new Callback<TableColumn.CellDataFeatures<Ligne, Produit>, ObservableValue<Produit>>() {
-              @Override
-              public ObservableValue<Produit> call(TableColumn.CellDataFeatures<Ligne, Produit> ligneProduitCellDataFeatures) {
-                return ligneProduitCellDataFeatures.getValue().produitProperty();
-              }
-            };
-            Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackPrixUnit =
-              new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
-                @Override
-                public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
-                  return Bindings.selectFloat(ligneNumberCellDataFeatures.getValue().produitProperty(), "prix");
-                }
-            };
-    Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackTotalHT =
-            new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
-              @Override
-              public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
-                return ligneNumberCellDataFeatures.getValue().totalHTProperty();
-              }
-            };
-    Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackTotalTTC =
-            new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
-              @Override
-              public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
-                return ligneNumberCellDataFeatures.getValue().totalTTCProperty();
-              }
-            };
-
-    qte.setCellValueFactory(cellData -> cellData.getValue().qteProperty().asObject());
-    produit.setCellValueFactory(callbackProduit);
-    prixUnitaire.setCellValueFactory(callbackPrixUnit);
-    totalHT.setCellValueFactory(callbackTotalHT);
-    totalTTC.setCellValueFactory(callbackTotalTTC);
   }
 }
