@@ -39,7 +39,7 @@ public class HelloApplication extends Application {
     public void closeWindow(Stage stage, Controller controller) {
         stage.setOnCloseRequest(event -> {
             if (controller.dessin.estModifieProperty().get()) {
-                if (!controller.onQuitter()) {
+                if (!controller.onQuitter(controller)) {
                     event.consume();
                 }
             }

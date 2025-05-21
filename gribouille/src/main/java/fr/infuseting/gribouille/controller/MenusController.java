@@ -63,7 +63,7 @@ public class MenusController  implements Initializable {
 
     @FXML
     private void onQuitte() {
-        if (controleur.onQuitter()) {
+        if (controleur.onQuitter(controleur)) {
             Platform.exit();
         }
     }

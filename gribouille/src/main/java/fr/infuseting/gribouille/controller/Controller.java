@@ -146,8 +146,8 @@ public class Controller implements Initializable {
         newForme();
     }
 
-    public boolean onQuitter() {
-        if (Dialogues.confirmation()) {
+    public boolean onQuitter(Controller controller) {
+        if (Dialogues.confirmation(controller)) {
             return true;
         }
         return false;
