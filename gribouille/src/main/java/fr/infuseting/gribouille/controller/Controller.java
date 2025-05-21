@@ -1,6 +1,8 @@
 package fr.infuseting.gribouille.controller;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -9,15 +11,22 @@ import fr.infuseting.gribouille.modele.*;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
+import javax.imageio.ImageIO;
+
 public class Controller implements Initializable {
     public final Dessin dessin = new Dessin();
     public Figure actualFigure;
@@ -180,5 +189,26 @@ public class Controller implements Initializable {
             return true;
         }
         return false;
+    }
+    public void onExporter() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Exporter le dessin");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image PNG", "*.png")
+        );
+        Stage stage = (Stage) dessinController.Canvas.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            WritableImage image = dessinController.Canvas.snapshot(new SnapshotParameters(), null);
+            try {
+                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur d'exportation");
+                alert.setHeaderText("Impossible d'exporter l'image");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
+        }
     }
 }

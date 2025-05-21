@@ -20,6 +20,7 @@ public class MenusController  implements Initializable {
 
     @FXML public MenuItem SaveButton;
     @FXML public MenuItem ChargerButton;
+    @FXML public MenuItem ExportButton;
 
 
     private Controller controleur;
@@ -58,6 +59,9 @@ public class MenusController  implements Initializable {
         });
         ChargerButton.setOnAction(event -> {
             controleur.onCharger();
+        });
+        ExportButton.setOnAction(event -> {
+            controleur.onExporter();
         });
     }
 
