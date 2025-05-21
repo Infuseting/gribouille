@@ -2,6 +2,7 @@ package fr.infuseting.gribouille;
 
 import fr.infuseting.gribouille.controller.Controller;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,8 +17,14 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         Controller controller = fxmlLoader.getController();
         controller.dessin.setNomDuFichier("Nouveau Dessin");
-        // Bind the stage title to the nomDuFichier property
-        stage.titleProperty().bind(controller.dessin.nomDuFichierProperty());
+        stage.titleProperty().bind(Bindings.concat(
+                "Gribouille - ",
+                Bindings.when(controller.dessin.estModifieProperty())
+                        .then(" *")
+                        .otherwise(""),
+                controller.dessin.nomDuFichierProperty()
+
+        ));
         stage.setScene(scene);
 
         stage.getScene().setOnKeyPressed(event -> controller.onKeyPressed(event.getText()));
@@ -31,9 +38,12 @@ public class HelloApplication extends Application {
 
     public void closeWindow(Stage stage, Controller controller) {
         stage.setOnCloseRequest(event -> {
-            if (!controller.onQuitter()) {
-                event.consume();
+            if (controller.dessin.estModifieProperty().get()) {
+                if (!controller.onQuitter()) {
+                    event.consume();
+                }
             }
+
         });
     }
 

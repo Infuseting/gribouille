@@ -15,6 +15,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 public class Controller implements Initializable {
     public final Dessin dessin = new Dessin();
@@ -149,5 +151,20 @@ public class Controller implements Initializable {
             return true;
         }
         return false;
+    }
+
+    public void onSauvegarde() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sauvegarder le dessin");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Fichiers dessin", "*.grb")
+        );
+        // Récupérer la fenêtre principale via un composant FXML
+        Stage stage = (Stage) dessinController.Canvas.getScene().getWindow();
+        java.io.File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            dessin.sauveSous(file.getAbsolutePath());
+            dessin.setNomDuFichier("Gribouille - " + file.getName());
+        }
     }
 }

@@ -10,7 +10,7 @@ public class Dialogues{
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText("Confirmation de fermeture");
-        alert.setContentText("Êtes-vous sûr de vouloir fermer la fenêtre ?");
+        alert.setContentText("Êtes-vous sûr de vouloir fermer la fenêtre ? (Votre dessin n'est pas sauvegardé)");
 
         Optional<ButtonType> result = alert.showAndWait();
         return result.orElse(ButtonType.NO) == ButtonType.OK;

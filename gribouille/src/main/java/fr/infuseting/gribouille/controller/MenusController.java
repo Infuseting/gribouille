@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
 
@@ -16,6 +17,9 @@ public class MenusController  implements Initializable {
     @FXML public ToggleGroup Width;
     @FXML public RadioMenuItem CrayonButton;
     @FXML public RadioMenuItem EtoileButton;
+
+    @FXML public MenuItem SaveButton;
+
 
     private Controller controleur;
 
@@ -47,6 +51,10 @@ public class MenusController  implements Initializable {
                 controleur.setEpaisseur(Integer.parseInt(id));
             }
         });
+
+        SaveButton.setOnAction(event -> {
+            controleur.onSauvegarde();
+        });
     }
 
     @FXML
@@ -55,4 +63,6 @@ public class MenusController  implements Initializable {
             Platform.exit();
         }
     }
+
+
 }

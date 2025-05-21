@@ -1,5 +1,8 @@
 package fr.infuseting.gribouille.modele;
 
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 /**
  Stocke une figure "Trace"
  */
@@ -12,7 +15,16 @@ public class Trace extends Figure {
     super(epaisseur, couleur);
     points.add(new Point(x0, y0));
   }
+  Trace(Scanner scan) {
+    super(scan);
+  }
 
+  @Override
+  public void sauve(PrintWriter out) {
+    out.print("T ");
+    super.sauve(out);
+    out.println();
+  }
   @Override
   public String toString() {
     return "Trace{" +
