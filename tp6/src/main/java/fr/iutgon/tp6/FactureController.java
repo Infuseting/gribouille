@@ -48,6 +48,48 @@ public class FactureController implements Initializable {
   }
 
   public void onAjouter(ActionEvent actionEvent) {
-    //TODO ajouter un produit aléatoire à la table
+    Ligne ligne = new Ligne(new Random().nextInt(10) + 1, FabriqueProduits.getProduits().get(new Random().nextInt(FabriqueProduits.getProduits().size() - 1)) );
+    table.getItems().add(ligne);
+    Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackQuantite =
+            new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
+              @Override
+              public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneProduitCellDataFeatures) {
+                return ligneProduitCellDataFeatures.getValue().qteProperty();
+              }
+            };
+    Callback<TableColumn.CellDataFeatures<Ligne, Produit>, ObservableValue<Produit>> callbackProduit =
+            new Callback<TableColumn.CellDataFeatures<Ligne, Produit>, ObservableValue<Produit>>() {
+              @Override
+              public ObservableValue<Produit> call(TableColumn.CellDataFeatures<Ligne, Produit> ligneProduitCellDataFeatures) {
+                return ligneProduitCellDataFeatures.getValue().produitProperty();
+              }
+            };
+            Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackPrixUnit =
+              new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
+                @Override
+                public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
+                  return ligneNumberCellDataFeatures.getValue().produitProperty().getValue().prixProperty();
+                }
+            };
+    Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackTotalHT =
+            new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
+              @Override
+              public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
+                return ligneNumberCellDataFeatures.getValue().totalHTProperty();
+              }
+            };
+    Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>> callbackTotalTTC =
+            new Callback<TableColumn.CellDataFeatures<Ligne, Number>, ObservableValue<Number>>() {
+              @Override
+              public ObservableValue<Number> call(TableColumn.CellDataFeatures<Ligne, Number> ligneNumberCellDataFeatures) {
+                return ligneNumberCellDataFeatures.getValue().totalTTCProperty();
+              }
+            };
+
+    qte.setCellValueFactory(cellData -> cellData.getValue().qteProperty().asObject());
+    produit.setCellValueFactory(callbackProduit);
+    prixUnitaire.setCellValueFactory(callbackPrixUnit);
+    totalHT.setCellValueFactory(callbackTotalHT);
+    totalTTC.setCellValueFactory(callbackTotalTTC);
   }
 }
