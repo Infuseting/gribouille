@@ -93,8 +93,11 @@ public class FactureController implements Initializable {
 
                   }
               };
-
+      prixUnitaire.setCellFactory(column -> new BetterText<>());
+      totalHT.setCellFactory(column -> new BetterText<>());
+      totalTTC.setCellFactory(column -> new BetterText<>());
       qte.setCellValueFactory(cellData -> cellData.getValue().qteProperty().asObject());
+
       produit.setCellValueFactory(callbackProduit);
       prixUnitaire.setCellValueFactory(callbackPrixUnit);
       totalHT.setCellValueFactory(callbackTotalHT);
