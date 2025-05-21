@@ -1,6 +1,8 @@
 package fr.infuseting.gribouille.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 import fr.infuseting.gribouille.modele.Trace;
@@ -54,7 +56,9 @@ public class DessinController  implements Initializable {
     private void onMousePressed(MouseEvent mouseEvent) {
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
+        controleur.undoStack.push(new ArrayList<>(controleur.dessin.getFigures()));
         controleur.outilCourant.onMousePressed(x, y);
+        controleur.redoStack.clear();
 
     }
 

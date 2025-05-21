@@ -4,7 +4,10 @@ package fr.infuseting.gribouille.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import fr.infuseting.gribouille.Dialogues;
 import fr.infuseting.gribouille.modele.*;
@@ -19,6 +22,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
@@ -40,6 +46,9 @@ public class Controller implements Initializable {
     @FXML public DessinController dessinController;
     @FXML public StatutController statutController;
     @FXML public CouleursController couleursController;
+    public final Stack<List<Figure>> undoStack = new Stack<>();
+    public final Stack<List<Figure>> redoStack = new Stack<>();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -55,6 +64,23 @@ public class Controller implements Initializable {
         statutController.tool.setText("Crayon");
         dessinController.Canvas.heightProperty().addListener((observableValue, oldValue, newValue) -> dessine());
         dessinController.Canvas.widthProperty().addListener((observableValue, oldValue, newValue) -> dessine());
+
+        dessinController.Canvas.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.getAccelerators().put(
+                        new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN),
+                        () -> this.onAnnuler()
+                );
+                newScene.getAccelerators().put(
+                        new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+                        () -> this.onRetablir()
+                );
+                newScene.getAccelerators().put(
+                        new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+                        () -> this.onEffacerTout()
+                );
+            }
+        });
     }
 
 
@@ -209,6 +235,30 @@ public class Controller implements Initializable {
                 alert.setContentText(e.getMessage());
                 alert.showAndWait();
             }
+        }
+    }
+
+    public void onEffacerTout() {
+        undoStack.push(new ArrayList<>(dessin.getFigures()));
+        dessin.getFigures().clear();
+        dessine();
+    }
+
+    public void onAnnuler() {
+        if (!undoStack.isEmpty()) {
+            redoStack.push(new ArrayList<>(dessin.getFigures()));
+            List<Figure> previous = undoStack.pop();
+            dessin.setFigures(previous);
+            dessine();
+        }
+    }
+
+    public void onRetablir() {
+        if (!redoStack.isEmpty()) {
+            undoStack.push(new ArrayList<>(dessin.getFigures()));
+            List<Figure> next = redoStack.pop();
+            dessin.setFigures(next);
+            dessine();
         }
     }
 }
