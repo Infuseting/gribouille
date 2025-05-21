@@ -22,8 +22,7 @@ public class Dialogues {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.orElse(boutonAnnuler) == boutonSauvegarderQuitter) {
-            controller.onSauvegarde();
-            return true;
+            return controller.onSauvegarde();
         } else if (result.orElse(boutonAnnuler) == boutonQuitter) {
             return true;
         }

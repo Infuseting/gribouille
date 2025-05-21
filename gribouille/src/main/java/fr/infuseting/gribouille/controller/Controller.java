@@ -166,18 +166,19 @@ public class Controller implements Initializable {
             dessine();
         }
     }
-    public void onSauvegarde() {
+    public boolean onSauvegarde() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Sauvegarder le dessin");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Fichiers dessin", "*.grb")
         );
-        // Récupérer la fenêtre principale via un composant FXML
         Stage stage = (Stage) dessinController.Canvas.getScene().getWindow();
         java.io.File file = fileChooser.showSaveDialog(stage);
         if (file != null) {
             dessin.sauveSous(file.getAbsolutePath());
             dessin.setNomDuFichier("Gribouille - " + file.getName());
+            return true;
         }
+        return false;
     }
 }
