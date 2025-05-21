@@ -55,5 +55,18 @@ public class CouleursController implements Initializable {
                 clickedRectangle.setStrokeWidth(5);
             }
         });
+
+        ColorPicker.setOnAction(event -> {
+            controleur.couleur.set(ColorPicker.getValue());
+            controleur.setCouleur(ColorPicker.getValue());
+            rectangleContainer.getChildren().forEach(node -> {
+                if (node instanceof Rectangle) {
+                    Rectangle rectangle = (Rectangle) node;
+                    rectangle.setArcWidth(5);
+                    rectangle.setArcHeight(5);
+                    rectangle.setStrokeWidth(1);
+                }
+            });
+        });
     }
 }
