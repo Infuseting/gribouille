@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.w3c.dom.events.EventTarget;
 
@@ -36,7 +37,7 @@ public class CouleursController implements Initializable {
         blackColor.setArcHeight(10);
         blackColor.setArcWidth(10);
         blackColor.setStrokeWidth(5);
-        ColorPicker.setValue((javafx.scene.paint.Color) blackColor.getFill());
+        ColorPicker.setValue(Color.BLACK);
 
         colorContainer.setOnMouseClicked(event -> {
             rectangleContainer.getChildren().forEach(node -> {
