@@ -108,9 +108,18 @@ public class Controller implements Initializable {
         GraphicsContext gc = dessinController.Canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         for (Figure f : dessin.getFigures()) {
+            if (f instanceof PotPeinture) {
+                dessinController.potPeinture(
+                        f.getPoints().get(0).getX(),
+                        f.getPoints().get(0).getY(),
+                        Paint.valueOf(f.getCouleur())
+                );
+            }
             for (int i = 1; i < f.getPoints().size(); i++) {
                 gc.setLineWidth(f.getEpaisseur());
                 gc.setStroke(Paint.valueOf(f.getCouleur()));
+
+
                 if (f instanceof  Trace) {
 
                     double x0 = f.getPoints().get(i-1).getX();
@@ -260,5 +269,31 @@ public class Controller implements Initializable {
             dessin.setFigures(next);
             dessine();
         }
+    }
+
+    public void onGomme() {
+        outilCourant = new OutilGomme(this);
+        statutController.tool.setText("Gomme");
+        newForme();
+    }
+
+    public void onColorPicker() {
+        outilCourant = new OutilColorPicker(this);
+        statutController.tool.setText("Color Picker");
+        newForme();
+    }
+
+    public void onPotPeinture() {
+        outilCourant = new OutilPotPeinture(this);
+        statutController.tool.setText("Pot de Peinture");
+        newForme();
+    }
+
+    public void onAPropos() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("À propos de Gribouille");
+        alert.setHeaderText("Gribouille - Application de dessin");
+        alert.setContentText("Version 1.0\nDéveloppé par Infuseting\nLicence: MIT");
+        alert.showAndWait();
     }
 }

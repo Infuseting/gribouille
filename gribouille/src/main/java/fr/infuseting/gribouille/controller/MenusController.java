@@ -24,6 +24,10 @@ public class MenusController  implements Initializable {
     @FXML public MenuItem SaveButton;
     @FXML public MenuItem ChargerButton;
     @FXML public MenuItem ExportButton;
+    public RadioMenuItem ColorPickerButton;
+    public RadioMenuItem GommeButton;
+    public RadioMenuItem PotPeintureButton;
+    public MenuItem AboutButton;
 
 
     private Controller controleur;
@@ -38,13 +42,22 @@ public class MenusController  implements Initializable {
 
             if (newValue != null) {
                 String id = ((RadioMenuItem) newValue).getId();
-
+                System.out.println(id);
                 if (id.equals("EtoileButton")) {
                     controleur.onEtoile();
                 }
                 else if (id.equals("CrayonButton")) {
                     controleur.onCrayon();
 
+                }
+                else if (id.equals("GommeButton")) {
+                    controleur.onGomme();
+                }
+                else if (id.equals("ColorPickerButton")) {
+                    controleur.onColorPicker();
+                }
+                else if (id.equals("PotPeintureButton")) {
+                    controleur.onPotPeinture();
                 }
             }
         });
@@ -68,6 +81,12 @@ public class MenusController  implements Initializable {
         ExportButton.setOnAction(event -> {
             controleur.onExporter();
         });
+
+        AboutButton.setOnAction(event -> {
+            controleur.onAPropos();
+        });
+
+
     }
 
     @FXML

@@ -43,6 +43,9 @@
                     </toggleGroup>
                 </RadioMenuItem>
                 <RadioMenuItem fx:id="EtoileButton" mnemonicParsing="false" text="Etoile" toggleGroup="$Tool" />
+                <RadioMenuItem fx:id="GommeButton" mnemonicParsing="false" text="Gomme" toggleGroup="$Tool" />
+                <RadioMenuItem fx:id="ColorPickerButton" mnemonicParsing="false" text="ColorPicker" toggleGroup="$Tool" />
+                <RadioMenuItem fx:id="PotPeintureButton" mnemonicParsing="false" text="Pot de Peinture" toggleGroup="$Tool" />
             </items>
         </Menu>
         <Menu fx:id="AideDropdown" mnemonicParsing="false" text="Aide">

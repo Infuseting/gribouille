@@ -36,6 +36,7 @@ public class CouleursController implements Initializable {
         blackColor.setArcHeight(10);
         blackColor.setArcWidth(10);
         blackColor.setStrokeWidth(5);
+        ColorPicker.setValue((javafx.scene.paint.Color) blackColor.getFill());
 
         colorContainer.setOnMouseClicked(event -> {
             rectangleContainer.getChildren().forEach(node -> {
@@ -49,6 +50,7 @@ public class CouleursController implements Initializable {
             if (event.getTarget() instanceof Rectangle) {
                 Rectangle clickedRectangle = (Rectangle) event.getTarget();
                 controleur.couleur.set(clickedRectangle.getFill());
+                ColorPicker.setValue((javafx.scene.paint.Color) clickedRectangle.getFill());
                 controleur.setCouleur(clickedRectangle.getFill());
                 clickedRectangle.setArcWidth(10);
                 clickedRectangle.setArcHeight(10);

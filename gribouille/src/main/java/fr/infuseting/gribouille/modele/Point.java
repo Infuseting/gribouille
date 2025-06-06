@@ -68,4 +68,10 @@ public class Point {
     result = 31 * result + (int) (temp ^ (temp >>> 32));
     return result;
   }
+
+    public double distanceTo(double x, double y) {
+        double dx = this.x - x;
+        double dy = this.y - y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 } // public class Point

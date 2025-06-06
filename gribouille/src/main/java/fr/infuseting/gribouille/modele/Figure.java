@@ -38,6 +38,7 @@ public abstract class Figure {
   public static Figure charge(String line) {
     Scanner scan = new Scanner(line);
     switch (scan.next()) {
+      case "P" : return new PotPeinture(scan);
       case "T" : return new Trace(scan);
       case "E" : return new Etoile(scan);
       default: throw new IllegalArgumentException("Type de figure inconnu");
@@ -97,4 +98,13 @@ public abstract class Figure {
    Crée une nouvelle figure qui continue la figure courante avec une nouvelle couleur
    */
   public abstract Figure changeEpaisseur(int nouvelleEpaisseur);
+
+  public boolean contains(double x, double y) {
+    for (Point p : points) {
+      if (p.distanceTo(x, y) < epaisseur / 2.0) {
+        return true;
+      }
+    }
+    return false;
+  }
 } // public class Figure

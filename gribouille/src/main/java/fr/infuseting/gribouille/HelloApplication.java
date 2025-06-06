@@ -26,11 +26,13 @@ public class HelloApplication extends Application {
 
         ));
         stage.setScene(scene);
-
+        stage.getIcons().add(new javafx.scene.image.Image(HelloApplication.class.getResourceAsStream("logo.png")));
         stage.getScene().setOnKeyPressed(event -> controller.onKeyPressed(event.getText()));
 
         stage.show();
         closeWindow(stage, controller);
+
+
 
     }
 

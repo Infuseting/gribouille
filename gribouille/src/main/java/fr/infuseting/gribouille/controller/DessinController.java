@@ -43,6 +43,12 @@ public class DessinController  implements Initializable {
     public void trace(double x1, double y1, double x2, double y2) {
         Canvas.getGraphicsContext2D().strokeLine(x1, y1, x2, y2);
     }
+    public void gomme(double x1, double y1, double x2, double y2) {
+        Canvas.getGraphicsContext2D().setStroke(Paint.valueOf("#FFFFFF"));
+        Canvas.getGraphicsContext2D().strokeLine(x1, y1, x2, y2);
+        Canvas.getGraphicsContext2D().setStroke(controleur.couleur.get());
+
+    }
 
     public void setEpaisseur(int epaisseur) {
         Canvas.getGraphicsContext2D().setLineWidth(epaisseur);
@@ -74,5 +80,51 @@ public class DessinController  implements Initializable {
     private void onMouseMoved(MouseEvent mouseEvent) {
         controleur.prevX.set(mouseEvent.getX());
         controleur.prevY.set(mouseEvent.getY());
+    }
+
+    public void potPeinture(double x, double y, Paint value) {
+        int width = (int) Canvas.getWidth();
+        int height = (int) Canvas.getHeight();
+        var gc = Canvas.getGraphicsContext2D();
+        var snapshot = Canvas.snapshot(null, null);
+        int startX = (int) x;
+        int startY = (int) y;
+        javafx.scene.paint.Color targetColor = snapshot.getPixelReader().getColor(startX, startY);
+        javafx.scene.paint.Color fillColor = (javafx.scene.paint.Color) value;
+        if (colorsAreClose(targetColor, fillColor, 0.15)) return;
+
+        boolean[][] visited = new boolean[width][height];
+        java.util.ArrayDeque<int[]> stack = new java.util.ArrayDeque<>();
+        stack.push(new int[]{startX, startY});
+
+        int[][] directions = {
+                {1, 0}, {-1, 0}, {0, 1}, {0, -1},
+                {1, 1}, {-1, -1}, {1, -1}, {-1, 1}
+        };
+
+        while (!stack.isEmpty()) {
+            int[] pos = stack.pop();
+            int cx = pos[0];
+            int cy = pos[1];
+
+            if (cx < 0 || cy < 0 || cx >= width || cy >= height) continue;
+            if (visited[cx][cy]) continue;
+            if (!colorsAreClose(snapshot.getPixelReader().getColor(cx, cy), targetColor, 0.15)) continue;
+
+            visited[cx][cy] = true;
+            gc.getPixelWriter().setColor(cx, cy, fillColor);
+
+            for (int[] dir : directions) {
+                stack.push(new int[]{cx + dir[0], cy + dir[1]});
+            }
+        }
+    }
+
+    private boolean colorsAreClose(javafx.scene.paint.Color c1, javafx.scene.paint.Color c2, double tolerance) {
+        double dr = c1.getRed() - c2.getRed();
+        double dg = c1.getGreen() - c2.getGreen();
+        double db = c1.getBlue() - c2.getBlue();
+        double da = c1.getOpacity() - c2.getOpacity();
+        return (dr * dr + dg * dg + db * db + da * da) < (tolerance * tolerance);
     }
 }

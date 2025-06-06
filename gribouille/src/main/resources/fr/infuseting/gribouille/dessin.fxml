@@ -3,7 +3,21 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.paint.Color?>
 <Pane fx:id="CanvasFond" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.infuseting.gribouille.controller.DessinController">
+    <background>
+        <Background>
+            <fills>
+                <BackgroundFill>
+                    <fill>
+                        <Color fx:constant="WHITE"/>
+                    </fill>
+                </BackgroundFill>
+            </fills>
+        </Background>
+    </background>
     <children>
         <Canvas fx:id="Canvas" onMouseMoved="#onMouseMoved" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" />         </children>
 </Pane>
